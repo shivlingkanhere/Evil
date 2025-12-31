@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jarvis Lite</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    background: black;
+    color: #00ffcc;
+    font-family: "Courier New", monospace;
+}
+
+.container {
+    padding: 20px;
+}
+
+.title {
+    font-size: 26px;
+    text-align: center;
+    text-shadow: 0 0 10px #00ffcc;
+}
+
+.terminal {
+    margin-top: 20px;
+    border: 1px solid #00ffcc;
+    padding: 15px;
+    height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 0 15px #00ffcc;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    background: black;
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+    font-size: 16px;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    background: #00ffcc;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #00ccaa;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <div class="title">JARVIS LITE</div>
+
+    <div class="terminal" id="terminal">
+        > System Initialized...<br>
+    </div>
+
+    <input id="input" placeholder="Type command..." />
+    <button onclick="send()">EXECUTE</button>
+</div>
+
+<script>
+const terminal = document.getElementById("terminal");
+
+function write(text) {
+    terminal.innerHTML += text + "<br>";
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+function send() {
+    const text = document.getElementById("input").value;
+    if (!text) return;
+
+    write("> " + text);
+    document.getElementById("input").value = "";
+
+    fetch("https://YOUR-RENDER-BACKEND-URL/", {
+        method: "GET"
+    })
+    .then(res => res.text())
+    .then(data => {
+        write("Jarvis: " + data);
+    })
+    .catch(() => {
+        write("Jarvis: Backend not responding");
+    });
+}
+</script>
+</body>
+  </html>
