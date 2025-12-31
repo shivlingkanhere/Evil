@@ -86,7 +86,7 @@ function send() {
     write("> " + text);
     document.getElementById("input").value = "";
 
-    fetch("https://evil-2.onrender.com", {
+    fetch("https://evil-2.onrender.com/", {
         method: "GET"
     })
     .then(res => res.text())
