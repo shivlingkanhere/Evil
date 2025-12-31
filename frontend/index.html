@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* General body styling */
 body {
     margin: 0;
     background: black;
@@ -13,16 +14,19 @@ body {
     font-family: "Courier New", monospace;
 }
 
+/* Container for everything */
 .container {
     padding: 20px;
 }
 
+/* Title at top */
 .title {
     font-size: 26px;
     text-align: center;
     text-shadow: 0 0 10px #00ffcc;
 }
 
+/* Terminal box */
 .terminal {
     margin-top: 20px;
     border: 1px solid #00ffcc;
@@ -32,6 +36,7 @@ body {
     box-shadow: 0 0 15px #00ffcc;
 }
 
+/* Input styling */
 input {
     width: 100%;
     padding: 12px;
@@ -42,6 +47,7 @@ input {
     outline: none;
 }
 
+/* Button styling */
 button {
     width: 100%;
     margin-top: 10px;
@@ -74,29 +80,31 @@ button:hover {
 <script>
 const terminal = document.getElementById("terminal");
 
+/* Function to write output to terminal */
 function write(text) {
     terminal.innerHTML += text + "<br>";
     terminal.scrollTop = terminal.scrollHeight;
 }
 
+/* Function called when button clicked */
 function send() {
     const text = document.getElementById("input").value;
     if (!text) return;
 
-    write("> " + text);
+    write("> " + text); // Echo command
     document.getElementById("input").value = "";
 
-    fetch("https://evil-2.onrender.com/", {
-        method: "GET"
-    })
-    .then(res => res.text())
-    .then(data => {
-        write("Jarvis: " + data);
-    })
-    .catch(() => {
-        write("Jarvis: Backend not responding");
-    });
+    /* Fetch response from backend */
+    fetch("https://evil-2.onrender.com/")  // <-- Your backend URL
+        .then(res => res.json())           // Parse JSON response
+        .then(data => {
+            write("Jarvis: " + data.reply);
+        })
+        .catch(err => {
+            write("Jarvis: Backend not responding");
+            console.error(err);
+        });
 }
 </script>
 </body>
-  </html>
+</html>
